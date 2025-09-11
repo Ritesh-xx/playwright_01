@@ -10,11 +10,20 @@ pipeline {
     }
 
     stages {
-        stage('Checkout') {
+        
+        stage('Clean Workspace') {
             steps {
-                git 'https://github.com/Ritesh-xx/playwright_01.git'
+                // This deletes everything in the workspace before the build starts
+                deleteDir()
             }
         }
+
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Ritesh-xx/playwright_01.git'
+            }
+        }
+        
 
         stage('Install Dependencies') {
             steps {
