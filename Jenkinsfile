@@ -27,38 +27,38 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                sh 'npm ci'
+                bat 'npm ci'
             }
         }
 
         stage('Install Playwright Browsers') {
             steps {
-                sh 'npx playwright install --with-deps'
+                bat 'npx playwright install --with-deps'
             }
         }
 
         
         stage('Install playwright allure') {
             steps {
-                sh 'npm install -D allure-playwright'
+                bat 'npm install -D allure-playwright'
             }
         }
 
         stage('Install allure') {
             steps {
-                sh 'npm install -g allure-commandline --save-dev'
+                bat 'npm install -g allure-commandline --save-dev'
             }
         }
 
         stage('Run Tests') {
             steps {
-                sh 'npx playwright test tests/specs/Register.spec.js --reporter=html,allure-playwright'
+                bat 'npx playwright test tests/specs/Register.spec.js --reporter=html,allure-playwright'
             }
         }
 
         stage('Generate Allure Report') {
             steps {
-                sh 'npx allure generate allure-results --clean -o allure-report'
+                bat 'npx allure generate allure-results --clean -o allure-report'
             }
         }
 
