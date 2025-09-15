@@ -37,7 +37,7 @@ pipeline {
 
         stage('Run Playwright Tests') {
             steps {
-                bat 'npx playwright test Register.spec.js --reporter=html,allure-playwright'
+                bat 'npx playwright test tests/specs/Register.spec.js --reporter=html,allure-playwright'
             }
         }
 
