@@ -1,7 +1,6 @@
 pipeline {
-    agent {
-        label 'linux' // or 'any' if no specific agent is needed
-    }
+    
+    agent any
 
     tools {
         nodejs 'NodeJS' // Use the NodeJS tool you configured in Jenkins
@@ -11,6 +10,11 @@ pipeline {
         timeout(time: 60, unit: 'MINUTES')
         timestamps()
     }
+
+    environment {
+    CI = 'true'
+    PLAYWRIGHT_BROWSERS_PATH = 'C:/Users/Ascendion/AppData/Local/ms-playwright' // Use global Playwright browsers
+  }
 
     stages {
 
@@ -22,25 +26,19 @@ pipeline {
 
         stage('Install Dependencies') {
             steps {
-                bash 'npm ci'
-            }
-        }
-
-        stage('Install Playwright Browsers') {
-            steps {
-                bash 'npx playwright install --with-deps'
+                bat 'npm ci'
             }
         }
 
         stage('Run Playwright Tests') {
             steps {
-                bash 'npx playwright test Register.spec.js --reporter=html,allure-playwright'
+                bat 'npx playwright test Register.spec.js --reporter=html,allure-playwright'
             }
         }
 
         stage('Generate Allure Report') {
             steps {
-                bash 'npx allure generate allure-results --clean -o allure-report'
+                bat 'npx allure generate allure-results --clean -o allure-report'
             }
         }
 
@@ -60,4 +58,6 @@ pipeline {
             echo 'Pipeline failed.'
         }
     }
+
+    cleanWs()
 }
