@@ -4,6 +4,7 @@ const { RegisterPage } = require('../pages/RegisterPage');
 
 
 test('Register new user ', async ({ page }) => {
+    
     const registerPage = new RegisterPage(page);
 
     await registerPage.goto();
