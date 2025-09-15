@@ -16,7 +16,7 @@ pipeline {
 
         stage('Checkout') {
             steps {
-                git branch: 'main', url: 'https://github.com/Ritesh-xx/playwright_01.git'
+                checkout scm
             }
         }
 
