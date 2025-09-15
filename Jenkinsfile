@@ -47,10 +47,37 @@ pipeline {
             }
         }
 
-        stage('Archive Test Reports') {
+        stage('Publish Reports') {
             steps {
-                archiveArtifacts artifacts: 'allure-report/**', fingerprint: true
-                archiveArtifacts artifacts: 'playwright-report/**', fingerprint: true
+                script {
+                    // Publish Allure HTML report in Jenkins sidebar
+                    publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'allure-report',
+                        reportFiles: 'index.html',
+                        reportName: 'Allure Report',
+                        reportTitles: 'Allure Test Results'
+                    ])
+
+                    // Publish Playwright HTML report in Jenkins sidebar
+                    publishHTML([
+                        allowMissing: true,
+                        alwaysLinkToLastBuild: true,
+                        keepAll: true,
+                        reportDir: 'playwright-report',
+                        reportFiles: 'index.html',
+                        reportName: 'Playwright Report',
+                        reportTitles: 'Playwright Test Results'
+                    ])
+                }
+            }
+        }
+
+        stage('Archive Reports') {
+            steps {
+                archiveArtifacts artifacts: 'allure-report/**/*, playwright-report/**/*', fingerprint: true
             }
         }
     }
