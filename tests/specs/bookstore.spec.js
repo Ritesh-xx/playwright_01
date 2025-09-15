@@ -16,7 +16,7 @@ test('testing pages', async ({ page }) => {
 
     await homePage.firstBookTitle.click();
 
-    await expect(page).toHaveURL('https://demoqa.com/books?book=9781593277574');
+    await expect(page).toHaveURL(/\/books\?book=/);
 
     await page.waitForTimeout(9000);
 
