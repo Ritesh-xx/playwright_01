@@ -1,9 +1,8 @@
 pipeline {
-    
     agent any
 
     tools {
-        nodejs 'NodeJS' // Use the NodeJS tool you configured in Jenkins
+        nodejs 'NodeJS' // Matches the configured NodeJS tool name in Jenkins
     }
 
     options {
@@ -12,9 +11,9 @@ pipeline {
     }
 
     environment {
-    CI = 'true'
-    PLAYWRIGHT_BROWSERS_PATH = 'C:/Users/Ascendion/AppData/Local/ms-playwright' // Use global Playwright browsers
-  }
+        CI = 'true'
+        PLAYWRIGHT_BROWSERS_PATH = 'C:\\Users\\Ascendion\\AppData\\Local\\ms-playwright' // Double backslashes for Windows path
+    }
 
     stages {
 
@@ -27,6 +26,12 @@ pipeline {
         stage('Install Dependencies') {
             steps {
                 bat 'npm ci'
+            }
+        }
+
+        stage('Install Playwright Browsers') {
+            steps {
+                bat 'npx playwright install --with-deps'
             }
         }
 
@@ -57,7 +62,8 @@ pipeline {
         failure {
             echo 'Pipeline failed.'
         }
+        cleanup {
+            cleanWs()
+        }
     }
-
-    cleanWs()
 }
